@@ -1,0 +1,9 @@
+LICENSE
+README.md
+setup.py
+hiphy.egg-info/PKG-INFO
+hiphy.egg-info/SOURCES.txt
+hiphy.egg-info/dependency_links.txt
+hiphy.egg-info/top_level.txt
+scripts/__init__.py
+scripts/hiphy

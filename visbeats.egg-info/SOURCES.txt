@@ -1,0 +1,8 @@
+LICENSE
+README.md
+setup.py
+scripts/__init__.py
+visbeats.egg-info/PKG-INFO
+visbeats.egg-info/SOURCES.txt
+visbeats.egg-info/dependency_links.txt
+visbeats.egg-info/top_level.txt

@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+
+import sys
+sys.path.append('../visbeats')
+import argparse
+from hiphy import Hiphy
+from datetime import datetime
+import json
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-mp', '--media-preproc',
+            help="media-preprocessor [sequential-high|parallel-low|...]",
+            dest="media-preprocessor")
+    parser.add_argument('-bp', '--beat-proc',
+            help="beat-processor [onset-high|bpm-low|...]",
+            dest="beat-processor")
+    parser.add_argument('-fi', '--finisher',
+            help="finisher [video-batch-high|stream-live-low|...]",
+            dest="finisher")
+    parser.add_argument('-m', '--mode',
+            help="mode [default|fast|super-fast]",
+            dest="mode")
+    parser.add_argument('-mf', '--media_folder',
+            help="media folder",
+            dest="media_folder")
+    parser.add_argument('-o', '--output_video',
+            help="output video",
+            dest="output_video")
+    parser.add_argument('-ts', '--transition_secs',
+            help="minimum duration of transition in seconds",
+            dest="transition_min")
+    parser.add_argument('-k', '--keywords',
+            help="keywords",
+            dest="keywords")
+    parser.add_argument('-mk', '--max_keyword_videos',
+            help="maximum number of videos downloaded per keyword",
+            dest="max_keyword_videos")
+    parser.add_argument('-s', '--song',
+            help="song",
+            dest="song")
+    parser.add_argument('-rp', '--random_prob',
+            help="random transition probability",
+            dest="random_transition_prob")
+    parser.add_argument('-ml', '--max_length',
+            help="max length",
+            dest="max_length")
+    parser.add_argument('-cb', '--callback',
+            help="callback",
+            dest="callback")
+    parser.add_argument('-rtmp', '--rtmp',
+            help="rtmp",
+            dest="rtmp")
+    parser.add_argument('-e', '--email',
+            help="email",
+            dest="email")
+    parser.add_argument('-pp', '--preproc',
+            help="used to skip media preprocessing",
+            action="store_true",
+            dest="preprocess")
+    parser.add_argument('-au', '--audio_upload',
+            help="upload audio to s3 and pass link",
+            action="store_true",
+            dest="audio_upload")
+    parser.add_argument('-pu', '--post_url',
+            help="post url",
+            dest="post_url")
+    parser.add_argument('-rs', '--resolution',
+            help="output resolution [1280:720]",
+            dest="resolution")
+    parser.add_argument('-wd', '--work_dir',
+            help="work directory",
+            dest="work_dir")
+
+    args = parser.parse_args()
+    if args.keywords is not None:
+        args.keywords = [
+            keyword.strip() for keyword in args.keywords.split(',')
+        ]
+    reduced_kwargs = {k:v for k,v in vars(args).items() if v is not None}
+    print(json.dumps(reduced_kwargs, indent=4))
+    hiphy = Hiphy(**reduced_kwargs)
+    startTime = datetime.now()
+    hiphy.run()
+    print("Tooks {} seconds to complete.".format(datetime.now() - startTime))
